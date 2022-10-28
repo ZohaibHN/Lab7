@@ -16,21 +16,27 @@ class Queue {
         end = -1;
         size = 0;
     }
-    public void resize() {
-        int[] newArray = new int[(array.length * 2)];
-        int original = start;
-        int now = 0;
-        while (now < array.length) {
-
+    public void resize() { //resize method for when array is full
+        int[] newArray = new int[(array.length * 2)]; //new array declared twice the size of the original array
+        int original = start; //int value to keep track of old array
+        int now = 0; //int value to keep track of new array
+        while (now < array.length) { //while loop to access new array
+            newArray[now] = array[original]; //copies old array to new array
+            now++; //increments now to access next index of new array
+            original++; //increments to access next index of old array
+            if (original == array.length) { //if statement to change original when it equals the old array length
+                original = 0;
+            }
         }
         start = 0;
-        end = -1;
+        end = (now -1);
+        array = newArray; //sets array equal to the new array with updated values
     }
 
     // enqueue - add at end
     public void enqueue(int number) {
-        if (full() == true) {
-
+        if (full() == true) { //checking to see if array is full before going through the method
+            resize(); //calls resize method if array is full
         }
         end++;
         if (end == array.length) {
@@ -46,9 +52,9 @@ class Queue {
     }
 
     // dequeue - remove from start
-    public int dequeue() throws NoSuchElementException{
+    public int dequeue() throws NoSuchElementException{ //throws exception
         if (empty() == true) {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException(); //throws Exception when array is empty
         }
         int returnVal = array[start];
         start++;
